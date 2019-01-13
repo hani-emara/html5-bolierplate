@@ -1,4 +1,7 @@
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 
 module.exports = {
 
@@ -8,8 +11,16 @@ module.exports = {
 
         path: path.resolve(__dirname, 'dist'),
 
-        filename: "main.js"
+        filename: "[name].[chunkhash].js"
 
+    },
+
+    optimization: {
+        splitChunks: {
+
+            chunks: "all",
+
+        }
     },
 
     module: {
@@ -17,15 +28,53 @@ module.exports = {
         rules: [
 
             {
+                test: /\.js$/,
+                exclude: /(node_modules)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            },
 
-                test: /\.css$/,
+            {
 
-                use: ["css-loader", "style-loader"]
+                test: /\.s?css$/,
+
+                use: ["style-loader",MiniCssExtractPlugin.loader , "css-loader", "sass-loader"]
+
+            },
+
+            {
+
+                test: /\.(png|jpg|gif)$/,
+
+                use: [
+                    "file-loader", {
+                   
+                        loader: "url-loader",
+
+                        options: {
+                            limit: 5000
+                        }
+                        
+                    }
+
+                ]
 
             }
 
         ]
 
-    }
+    },
+
+    plugins: [
+
+        new HtmlWebpackPlugin({
+            template: "./src/index.html"
+        })
+
+    ]
 
 }
