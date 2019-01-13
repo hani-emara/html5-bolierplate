@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "start": "webpack --mode development"
+    "build": "webpack",
+    "start": "webpack-dev-server --mode development --hotOnly"
   },
   "author": "Hani Emara",
   "license": "ISC",
