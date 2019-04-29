@@ -9,7 +9,7 @@ module.exports = {
     entry: "./src/index.js",
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name].[chunkhash].js"
+        filename: "[name].js"
     },
     optimization: {
         splitChunks: {
@@ -44,12 +44,14 @@ module.exports = {
             {
                 test: /\.(jpe?g|png|gif|svg|ico)$/i,
                 use: [
-                    "file-loader", {          
-                        loader: "url-loader",
-                        options: {
-                            limit: 25000
-                        },
-                    },{
+                    "file-loader", 
+                    // {          
+                    //     loader: "url-loader",
+                    //     options: {
+                    //         limit: 25000
+                    //     },
+                    // },
+                    {
                         loader: 'image-webpack-loader',
                         options: {
                           mozjpeg: {
@@ -79,6 +81,10 @@ module.exports = {
                     },
                 },
             },
+            {
+                test: /\.(html)$/,
+                loader: "html-loader"
+            }
         ]
     },
     plugins: [
